@@ -229,14 +229,25 @@ syn match scalaTrailingComment "//.*$" 														contains=scalaTodo,@Spell
 hi def link scalaTrailingComment Comment
 
 " -------------------------- LIBRARY SYNTAX ----------------------------------
+function! ScalaImportHighlight()
+  if search('import\s*cats\.effect', 'nw') != 0
+    syn keyword scalaLibCatsEffect IO
+    hi def link scalaLibCatsEffect PreProc
+  endif
+  if search('import\s*zio', 'nw') != 0
+    syn keyword scalaLibZIO ZIO
+    hi def link scalaLibZIO PreProc
+  endif
+  if search('import\s*scala\.util\.control\.Breaks', 'nw') != 0
+    syn keyword scalaLibStdBreaks breakable break
+    hi def link scalaLibStdBreaks Function
+  endif
+endfunction
 
-syn keyword scalaBuiltinFunction println print printf assert breakable break
-			\ to until
+syn keyword scalaBuiltinFunction println print printf to until
 hi def link scalaBuiltinFunction Function
 
-syn keyword scalaEffectSpecialWord IO ZIO
-hi def link scalaEffectSpecialWord PreProc
-
+" TODO: update these to be in the ScalaImportHighlight()
 syn keyword scalaAkkaSpecialWord when goto using startWith initialize onTransition stay become unbecome
 hi def link scalaAkkaSpecialWord PreProc
 
@@ -263,6 +274,11 @@ hi def link scalaAkkaFSMGotoUsing PreProc
 
 
 " -------------------------- FINALIZE ----------------------------------------
+
+augroup ScalaDynamicSyntax
+	autocmd!
+	autocmd BufRead,BufWritePost,VimEnter *.scala call ScalaImportHighlight()
+augroup END
 
 let b:current_syntax = 'scala'
 
