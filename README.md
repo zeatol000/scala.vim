@@ -3,6 +3,8 @@ A custom Scala syntax highlighting for Vim/NeoVim.
 
 ---
 ## Installation
+Either use the installation script and pass "-nvim" or "-vim" depending on which
+to use, or follow these steps:
 1. Go to your user's Vim syntax directory
    - Vim is in ~/.vim/syntax/
    - Neovim is in ~/.config/nvim/syntax/
